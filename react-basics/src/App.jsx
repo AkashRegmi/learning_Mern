@@ -8,7 +8,7 @@ function App() {
     console.log(e);
 
     setToDos([...todos, e.target[0].value]);
-    e.target.reset();
+    e.target.reset();//thismakes the word to dont store 
   };
 
   return (
