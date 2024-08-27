@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const { JWT_SECRET_KEY } = require("../config/constants");
 
 const signUp = async (req, res) => {
+  
   const { password, ...remaining } = req.body;
   const user = await User.findOne({ email: req.body.email });
   if (user) {
@@ -12,12 +13,15 @@ const signUp = async (req, res) => {
     });
     return;
   }
+ 
 
   const salt = bcrypt.genSaltSync(10);
   const hashedPassword = bcrypt.hashSync(password, salt);
   await User.create({
+    
     ...remaining,
     password: hashedPassword,
+    image:  req.file.filename ,
   });
   res.status(201).json({
     message: "Your account has been successfully created",
