@@ -33,7 +33,7 @@ const signIn = async (req, res) => {
   //req.body=email:req.body.email && passord:req.body.password
   if (!user) {
     res.status(401).json({
-      message: "Invalid Credential.",
+      message: "User does not exist. Please Sign Up",
     });
     return;
   }
