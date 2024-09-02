@@ -6,25 +6,31 @@ import { TodoList } from "./components/TodoList";
 function Todo() {
   const [indexToBeEdited, setIndexToBeEdited] = useState(null);
   const [todo, setTodo] = useState("");
-  const [todos, setTodos] = useState(["learn html", "learn css", "learn php"]);
+  const [todos, setTodos] = useState(()=>{
+    return JSON.parse (localStorage.getItem("todos")) ?? [];
+  });
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    let updatedTodos;
     if (indexToBeEdited === null) {
-      setTodos([...todos, e.target[0].value]);
+      updatedTodos = [...todos, todo];
     } else {
       todos[indexToBeEdited] = todo;
-      setTodos([...todos]);
+      updatedTodos=[...todos];
 
       setIndexToBeEdited(null);
     }
     setTodo("");
+    setTodos(updatedTodos);
+    localStorage.setItem("todos", JSON.stringify(updatedTodos));
   };
 
   const handleDelete = (index) => {
     const newTodos = todos.filter((todo, todoIndex) => todoIndex !== index);
     setTodos(newTodos);
-  };
+    localStorage.setItem("todos", JSON.stringify(newTodos));
+  };//to delete the todolist
 
   const handleEdit = (index) => {
     setIndexToBeEdited(index);
@@ -33,17 +39,18 @@ function Todo() {
 
   return (
     <>
-    <Todoform handleSubmit={handleSubmit}
-    todo={todo}
-    setTodo={setTodo}
-    indexToBeEdited={indexToBeEdited}
-  />
-  <h2>Pada hai pada yo course</h2>
-  <TodoList 
-  todos={todos}
-  handleDelete={handleDelete}
-  handleEdit={handleEdit}
-   />
+      <Todoform
+        handleSubmit={handleSubmit}
+        todo={todo}
+        setTodo={setTodo}
+        indexToBeEdited={indexToBeEdited}
+      />
+      <h2>Pada hai pada yo course</h2>
+      <TodoList
+        todos={todos}
+        handleDelete={handleDelete}
+        handleEdit={handleEdit}
+      />
     </>
   );
 }
