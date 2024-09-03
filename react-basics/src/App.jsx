@@ -1,13 +1,12 @@
 import { useState } from "react";
 import "./App.css";
-import Todo from "./ToDo";
-import { Todoform } from "./components/TodoForm";
-import { TodoList } from "./components/TodoList";
+
+import { Products } from "./Products";
 
 function App() {
   return (
     <>
-      <Todo />
+      <Products/>
     </>
   );
 }

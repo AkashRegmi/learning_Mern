@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 
 import { Todoform } from "./components/TodoForm";
@@ -10,6 +10,9 @@ function Todo() {
     return JSON.parse (localStorage.getItem("todos")) ?? [];
   });
 
+  useEffect(()=>{
+    localStorage.setItem("todos", JSON.stringify(todos));
+  },[todos]);
   const handleSubmit = (e) => {
     e.preventDefault();
     let updatedTodos;
@@ -23,13 +26,14 @@ function Todo() {
     }
     setTodo("");
     setTodos(updatedTodos);
-    localStorage.setItem("todos", JSON.stringify(updatedTodos));
+    // localStorage.setItem("todos", JSON.stringify(updatedTodos));
+   
   };
 
   const handleDelete = (index) => {
     const newTodos = todos.filter((todo, todoIndex) => todoIndex !== index);
     setTodos(newTodos);
-    localStorage.setItem("todos", JSON.stringify(newTodos));
+    // localStorage.setItem("todos", JSON.stringify(newTodos));
   };//to delete the todolist
 
   const handleEdit = (index) => {
