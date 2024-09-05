@@ -7,7 +7,7 @@ import { Products } from "./Products";
 function App() {
   return (
     <>
-      <Users />
+      
       <Products/>
     </>
   );

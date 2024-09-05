@@ -83,18 +83,19 @@
 //     </>
 //   );
 // }
+
 import { useQuery } from "./hooks/useQuery";
 
 export function Products() {
-  const { data, state, error } = useQuery("https://dummyjson.com/products");
+  const { data, status, error } = useQuery("https://dummyjson.com/products");
 
   return (
     <>
       <h1>Products</h1>
-      {state === "Error" && <p>Error: {error}</p>}
-      {state === "loading" && <p>Loading...</p>}
+      {status === "error" && <p>Error: {error}</p>}
+      {status === "loading" && <p>Loading...</p>}
       <ul>
-        {state === "Success" &&
+        {status === "success" &&
           data.products?.map(({ id, title }) => <li key={id}>{title}</li>)}
       </ul>
     </>
