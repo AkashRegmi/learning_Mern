@@ -1,8 +1,12 @@
-import { useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 import "./App.css";
+import { userContext } from "./App";
+
+
 
 function Counter() {
+  const { user, makeAdmin } = useContext(userContext);
   useEffect(() => {
     console.log("From use State");
   },[]);
@@ -15,13 +19,21 @@ function Counter() {
   };
   return (
     <>
-      <button style={{ color: "red" }} onClick={increase}>
+      <button disabled ={!user.isAdmin}style={{ color: "red" }} onClick={increase}>
         +
       </button>
       <p>Count:{count}</p>
       <button style={{ color: "blue" }} onClick={decrease}>
         -
       </button>
+      <br/>
+      <button
+      onClick={() => {
+        makeAdmin();
+      }}
+    >
+      Make Admin
+    </button>
     </>
   );
 }
