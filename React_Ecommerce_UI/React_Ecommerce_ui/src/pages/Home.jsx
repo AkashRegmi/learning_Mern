@@ -3,16 +3,29 @@ import Typography from "@mui/material/Typography";
 import BannerImage from "../assets/Banner.jpg";
 import Product from "../components/Product";
 import Grid from "@mui/material/Grid2";
-import NavBar from "../components/NavBar";
-
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios"
 
 
 function Home() {
-  
+  const query = useQuery({
+    queryKey:["featured-Product"],
+    queryFn: async()=>{
+      try {
+        const res= await axios.get("http://localhost:3000/products/featured")
+        console.log(res)
+        return res.data.data
+      } catch (error) {
+        console.log(error);
+      }
+      return [];
+    }
+  });
+  console.log(query);
 
   return (
     <>
-      <NavBar/>
+      
       <img src={BannerImage} width="100%" />
       <Typography variant="h3" textAlign={"center"} my={5}>Featured Products </Typography>
       <Grid container spacing={4} justifyContent="space-around">

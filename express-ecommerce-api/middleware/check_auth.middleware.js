@@ -17,7 +17,8 @@ const checkAuthAdmin = (req, res, next) => {
   const { token } = req.headers; //const token=req.headers.token they both are same .
   try {
     const user = jwt.verify(token, JWT_SECRET_KEY);
-    if (!user.roles.includes("Admin")) {
+    // console.log("Verified user:", user); 
+    if (!user.roles.includes("admin")) {
       res
         .status(401)
         .json({ message: "Only Admin can access(Unauthorize Action)" });

@@ -6,7 +6,7 @@ import NavBar from "../components/NavBar";
 function Products() {
   return (
     <>
-      <NavBar />
+      
 
       <Grid container spacing={4} justifyContent="space-around">
         <Grid size={3}>

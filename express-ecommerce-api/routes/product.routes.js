@@ -7,7 +7,8 @@ const{ getProductById,
     getProduct,
     addProduct,
     deleteProductById,
-    updateProductById} = require("../controller/products.controller");
+    updateProductById,
+    getFeaturedProducts} = require("../controller/products.controller");
 const { JWT_SECRET_KEY } = require("../config/constants");
 const { checkAuth, checkAuthAdmin } = require("../middleware/check_auth.middleware");
 const validate = require("../middleware/validator.middleware");
@@ -51,6 +52,7 @@ const storage = multer.diskStorage({
 // body("price").notEmpty().withMessage("Product price is required"),validate, addProduct)
 router.post("/",checkAuthAdmin,upload.single("image"), addProduct)
 router.get("/", getProduct);
+router.get("/featured", getFeaturedProducts);
 router.get("/:productid", checkAuth,getProductById);
 router.delete("/:id", checkAuthAdmin, deleteProductById);
 router.patch("/:id", checkAuthAdmin,updateProductById);
