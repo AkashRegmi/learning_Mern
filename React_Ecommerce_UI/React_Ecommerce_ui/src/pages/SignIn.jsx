@@ -1,14 +1,14 @@
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Checkbox from "@mui/material/Checkbox";
-import FormControlLabel from "@mui/material/FormControlLabel";
+
 import FormLabel from "@mui/material/FormLabel";
 import FormControl from "@mui/material/FormControl";
-import { Link } from "react-router-dom";
+
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import Card from "@mui/material/Card";
+import { Link } from "react-router-dom";
 
 export default function SignIn() {
   return (
@@ -16,7 +16,6 @@ export default function SignIn() {
       sx={{ width: "80%", mx: "auto" }}
       direction="column"
       justifyContent="space-between"
-      
     >
       <Card sx={{ p: 10 }} variant="outlined">
         <Typography
@@ -68,22 +67,14 @@ export default function SignIn() {
               variant="outlined"
             />
           </FormControl>
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          />
+
           <Button type="submit" fullWidth variant="contained">
             Sign in
           </Button>
           <Typography sx={{ textAlign: "center" }}>
             Don&apos;t have an account?{" "}
             <span>
-              <Link
-                to="/sign-up/"
-                
-              >
-                Sign up
-              </Link>
+              <Link to="/sign-up">Sign up</Link>
             </span>
           </Typography>
         </Box>

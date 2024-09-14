@@ -1,14 +1,13 @@
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Checkbox from "@mui/material/Checkbox";
-import FormControlLabel from "@mui/material/FormControlLabel";
 import FormLabel from "@mui/material/FormLabel";
 import FormControl from "@mui/material/FormControl";
-import { Link } from "react-router-dom";
+
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import Card from "@mui/material/Card";
+import { Link } from "react-router-dom";
 
 export default function SignUp() {
   return (
@@ -23,7 +22,7 @@ export default function SignUp() {
           variant="h4"
           sx={{ width: "100%", fontSize: "clamp(2rem, 10vw, 2.15rem)" }}
         >
-          Sign UP
+          Sign Up
         </Typography>
         <Box
           component="form"
@@ -36,21 +35,21 @@ export default function SignUp() {
             gap: 2,
           }}
         >
-        <FormControl>
+          <FormControl>
             <FormLabel htmlFor="name">Name</FormLabel>
             <TextField
               id="name"
-              type="name"
+              type="text"
               name="name"
-              placeholder="Name"
+              placeholder="Your Name"
               autoComplete="name"
               autoFocus
               required
               fullWidth
               variant="outlined"
-              sx={{ ariaLabel: "name" }}
             />
           </FormControl>
+
           <FormControl>
             <FormLabel htmlFor="email">Email</FormLabel>
             <TextField
@@ -59,13 +58,12 @@ export default function SignUp() {
               name="email"
               placeholder="your@email.com"
               autoComplete="email"
-              autoFocus
               required
               fullWidth
               variant="outlined"
-              sx={{ ariaLabel: "email" }}
             />
           </FormControl>
+
           <FormControl>
             <Box sx={{ display: "flex", justifyContent: "space-between" }}>
               <FormLabel htmlFor="password">Password</FormLabel>
@@ -76,29 +74,17 @@ export default function SignUp() {
               type="password"
               id="password"
               autoComplete="current-password"
-              autoFocus
               required
               fullWidth
               variant="outlined"
             />
           </FormControl>
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          />
+
           <Button type="submit" fullWidth variant="contained">
-            Sign UP
+            Sign Up
           </Button>
           <Typography sx={{ textAlign: "center" }}>
-            Already have an account?{" "}
-            <span>
-              <Link
-                to="/sign-in/"
-               
-              >
-                Sign In
-              </Link>
-            </span>
+            Already have an account? <Link to="/sign-in">Sign In</Link>
           </Typography>
         </Box>
       </Card>

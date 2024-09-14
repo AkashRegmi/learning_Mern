@@ -1,0 +1,26 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import SignIn from "./pages/SignIn";
+import SignUp from "./pages/SignUp";
+import Home from "./pages/Home";
+import Products from "./pages/Products";
+import OrderTable from "./components/OrderTable";
+
+function App() {
+  return (
+    <>
+      <BrowserRouter>
+        <Routes>
+        <Route path="/" element={<Home/>} />
+        <Route path="/products" element={<Products/>} />
+          <Route path="/sign-in" element={<SignIn />} />
+          <Route path="/orders" element={<OrderTable/>} />
+          
+          <Route path="/sign-up" element={<SignUp />} />
+          <Route path="*" element={<h1> Page Not Found</h1>} />
+        </Routes>
+      </BrowserRouter>
+    </>
+  );
+}
+
+export default App;
