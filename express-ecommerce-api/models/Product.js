@@ -15,6 +15,8 @@ const productSchema = new mongoose.Schema({
   price: Number,
   image: String,
   featured: Boolean,
+},{
+  timestamps:true,
 });
 
 

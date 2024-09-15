@@ -75,7 +75,7 @@ const getProduct = async (req, res) => {
       data: { page, total, products },
     });
   } catch (error) {
-    console.error('Error fetching products:', error);
+    console.error("Error fetching products:", error);
     res.status(500).json({ message: "Error fetching products", error });
   }
 };
@@ -101,19 +101,15 @@ const addProduct = async (req, res) => {
       price: req.body.price,
       user: req.authUser._id,
       image: req.file ? req.file.filename : null,
-      featured: req.body.featured === 'true', // Ensure boolean conversion if necessary
+      featured: req.body.featured === "true", // Ensure boolean conversion if necessary
     });
-    console.log('New product added:', newProduct); // Log the new product
+    console.log("New product added:", newProduct); // Log the new product
     res.status(201).json({ message: "Product added successfully" });
   } catch (error) {
-    console.error('Error adding product:', error);
+    console.error("Error adding product:", error);
     res.status(500).json({ message: "Error adding product", error });
   }
 };
-
-
-
-
 
 // Route to get a specific product by ID
 const getProductById = async (req, res) => {
@@ -136,14 +132,21 @@ const updateProductById = async (req, res) => {
 };
 
 const getFeaturedProducts = async (req, res) => {
-  const products = await Product.find({ featured: true })
-  .limit(20);
-  res.status(200).json({ message: "product Featured Successfully",
-    data: products
-   });
-  
+  const products = await Product.find({ featured: true }).limit(20);
+  res
+    .status(200)
+    .json({ message: "product Featured Successfully", data: products });
 };
 
+
+const getLatestProducts = async (req, res) => {
+  const products = await Product.find().sort({
+    createdAt:"desc"
+  }).limit(4);//20
+  res
+    .status(200)
+    .json({ message: "product Latest fetched Successfully", data: products, });
+};
 module.exports = {
   getProductById,
   getProduct,
@@ -151,4 +154,5 @@ module.exports = {
   deleteProductById,
   updateProductById,
   getFeaturedProducts,
+  getLatestProducts,
 };

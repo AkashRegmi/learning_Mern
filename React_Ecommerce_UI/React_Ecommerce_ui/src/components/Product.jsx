@@ -6,19 +6,19 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 
-export default function Product() {
+export default function Product({product}) {
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardMedia
         component="img"
         alt="green iguana"
         height="140"
-        image="https://de.kicksmaniac.com/zdjecia/2022/08/23/508/43/NIKE_AIR_JORDAN_1_RETRO_HIGH_GS_RARE_AIR_MAX_ORANGE-mini.jpg"
+        image={`http://localhost:3000/${product?.image}`}
         title="green iguana"
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          NIKEAIRJORDAN1
+         {product?.name}
         </Typography>
         <Typography variant="body2" sx={{ color: "text.secondary" }}>
           The NIKE AIR JORDAN 1 RETRO is a classic, high-top basketball sneaker
@@ -28,7 +28,7 @@ export default function Product() {
       </CardContent>
       <CardActions>
         <Button size="small">
-          <h4>Price: $ 20000</h4>
+          <h4>Price: $ {product?.price}</h4>
         </Button>
         <Button size="small">
           <h4>Add to Cart</h4>
