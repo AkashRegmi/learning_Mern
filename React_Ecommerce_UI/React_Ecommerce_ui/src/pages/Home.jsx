@@ -1,7 +1,4 @@
-import Typography from "@mui/material/Typography";
 import BannerImage from "../assets/Banner.jpg";
-import Product from "../components/Product";
-import Grid from "@mui/material/Grid2";
 // import { useQuery } from "@tanstack/react-query";
 // import axios from "axios";
 // import { Skeleton } from "@mui/material";
