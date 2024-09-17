@@ -40,12 +40,23 @@ app.all("*", (req, res) => {
 });
 
 
-app.use((err,req,res,next)=> {
-// console.log(err);//from here we get to knw the where the error is occured iit is saved in aws sentry...
-res.status(500).json({
-  message:"Internal Server Error Developer mistake"
+// app.use((err,req,res,next)=> {
+// // console.log(err);//from here we get to knw the where the error is occured iit is saved in aws sentry...
+// res.status(500).json({
+//   message:"Internal Server Error Developer mistake"
+// });
+// });
+// app.listen(port, () => {
+//   console.log("Ecommerce app listening on port " + port);
+// });
+app.use((err, req, res, next) => {
+  console.error("Error: ", err);  // This logs the actual error message on the server
+  res.status(500).json({
+    message: "Internal Server Error Developer mistake",
+    error: err.message,  // Send the error message to the client for debugging
+  });
 });
-});
+
 app.listen(port, () => {
-  console.log("Ecommerce app listening on port " + port);
-});
+    console.log("Ecommerce app listening on port " + port);
+  });

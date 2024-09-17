@@ -22,8 +22,7 @@ export default function Product({product}) {
         </Typography>
         <Typography variant="body2" sx={{ color: "text.secondary" }}>
           The NIKE AIR JORDAN 1 RETRO is a classic, high-top basketball sneaker
-          known for its iconic design, timeless appeal, and association with
-          Michael Jordan.
+          known for its iconic design.
         </Typography>
       </CardContent>
       <CardActions>

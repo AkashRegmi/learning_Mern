@@ -99,10 +99,15 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import Card from "@mui/material/Card";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import * as yup from "yup";
+import axios from "axios";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useMutation } from "@tanstack/react-query";
+import { useState } from "react";
+import { toast } from "react-toastify";
+import { Alert } from "@mui/material";
 
 const passwordRules = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}$/;
 
@@ -118,6 +123,28 @@ const schema = yup
   .required();
 
 export default function SignUp() {
+  const navigate = useNavigate();
+  const [image, setImage] = useState(null);
+  const mutation = useMutation({
+    mutationFn: async (data) => {
+      //here We Cal the API.
+      const res = await axios.post("http://localhost:3000/auth/sign-up", data);
+      return res.data;
+    },
+    onSuccess: (data) => {
+      //navigate to signin page
+
+      navigate("/sign-in");
+      toast.success(data.message);
+    },
+    onError: (err) => {
+      // console.log(err.response.data.message);
+      toast.error(err.response.data.message);
+    },
+  });
+  //in order to trigger the Mutation function we have to make mutation.mutate
+
+  console.log(mutation.error)
   const {
     register,
     handleSubmit,
@@ -125,7 +152,13 @@ export default function SignUp() {
   } = useForm({
     resolver: yupResolver(schema),
   });
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = (data) => {
+    console.log(data);
+    mutation.mutate(data);
+  };
+  const handleImageChange = (e) => {
+    setImage(e.target.files[0]); // Set the selected image file to the state
+  };
 
   console.log(errors);
 
@@ -143,6 +176,7 @@ export default function SignUp() {
         >
           Sign Up
         </Typography>
+        {mutation.error && <Alert  sx={{my:2}}severity="error">{mutation.error.response.data.message}</Alert>}
         <Box
           component="form"
           onSubmit={handleSubmit(onSubmit)}
@@ -206,6 +240,16 @@ export default function SignUp() {
               {...register("password")}
             />
           </FormControl>
+          {/*<FormControl>
+          <FormLabel htmlFor="image">Upload Image</FormLabel>
+          <input
+            id="image"
+            type="file"
+            accept="image/*"
+            name="image"
+            onChange={handleImageChange}  // Handle image file selection
+          />
+        </FormControl> */}
           <Button type="submit" fullWidth variant="contained">
             Sign Up
           </Button>

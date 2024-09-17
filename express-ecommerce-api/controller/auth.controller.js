@@ -21,7 +21,7 @@ const signUp = async (req, res) => {
     
     ...remaining,
     password: hashedPassword,
-    image:  req.file.filename ,
+    image:  req.file ? req.file.filename : null,
   });
   res.status(201).json({
     message: "Your account has been successfully created",
