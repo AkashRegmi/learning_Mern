@@ -1,6 +1,6 @@
 const express = require("express");
 
-const { signIn, signUp } = require("../controller/auth.controller");
+const { signIn, signUp, logout } = require("../controller/auth.controller");
 const validate = require("../middleware/validator.middleware");
 const router = express.Router();
 const { body, validationResult } = require("express-validator");
@@ -39,5 +39,6 @@ const signInValidator = [
 // API ROUTES
 router.post("/sign-up",upload.single("image"),signUpValidator, signUp);
 router.post("/sign-in",signInValidator, signIn);
+router.post("/logout", logout);
 
 module.exports = router;

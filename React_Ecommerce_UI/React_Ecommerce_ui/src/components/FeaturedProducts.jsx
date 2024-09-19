@@ -11,7 +11,7 @@ function FeaturedProducts() {
     queryKey: ["featured-Product"],
     queryFn: async () => {
       try {
-        const res = await axios.get("http://localhost:3000/products/featured");
+        const res = await axios.get("/api/products/featured");
         console.log(res);
         return res.data.data;
       } catch (error) {

@@ -128,7 +128,7 @@ export default function SignUp() {
   const mutation = useMutation({
     mutationFn: async (data) => {
       //here We Cal the API.
-      const res = await axios.post("http://localhost:3000/auth/sign-up", data);
+      const res = await axios.post("/api/auth/sign-up", data);
       return res.data;
     },
     onSuccess: (data) => {
@@ -156,9 +156,9 @@ export default function SignUp() {
     console.log(data);
     mutation.mutate(data);
   };
-  const handleImageChange = (e) => {
-    setImage(e.target.files[0]); // Set the selected image file to the state
-  };
+  // const handleImageChange = (e) => {
+  //   setImage(e.target.files[0]); // Set the selected image file to the state
+  // };
 
   console.log(errors);
 

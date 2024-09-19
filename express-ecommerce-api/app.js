@@ -26,8 +26,8 @@ connectDb();
 //   });
 // });
 
-app.use("/products", productRoutes);
-app.use("/auth", authRoutes);
+app.use("/api/products", productRoutes);
+app.use("/api/auth", authRoutes);
 // app.get("/test", (req, res) => {
 //   res.satus(202).json({
 //     message:"ok ok"

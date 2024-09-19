@@ -14,14 +14,37 @@ import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-
+import { useContext } from "react";
+import { AuthContext } from "../App";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
+import { toast } from "react-toastify";
+import Badge from '@mui/material/Badge';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 const pages = ["Products", "Pricing", "Blog"];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+const settings = ["Profile", "Account", "Dashboard"];
 
 function NavBar() {
+  const { authUser, setAuthUser,cart } = useContext(AuthContext);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-  const navigate=useNavigate();
+  const navigate = useNavigate();
+
+  const mutation = useMutation({
+    mutationFn: async () => {
+      //here We Cal the API.
+      const res = await axios.post("/api/auth/logout");
+      return res.data;
+    },
+    onSuccess: (data) => {
+      //navigate to signin page
+
+      navigate("/");
+      toast.success(data.message);
+      setAuthUser(null);
+      localStorage.removeItem("authUser");
+    },
+  });
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -39,7 +62,7 @@ function NavBar() {
   };
 
   return (
-    <AppBar position="static" sx={{mb:2}}>
+    <AppBar position="static" sx={{ mb: 2 }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
@@ -59,7 +82,7 @@ function NavBar() {
               textDecoration: "none",
             }}
           >
-            ARStore 
+            ARStore
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -111,53 +134,96 @@ function NavBar() {
               letterSpacing: ".3rem",
               color: "inherit",
               textDecoration: "none",
-              
             }}
           >
             LOGO
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            <Button onClick={()=>{
-                navigate("/products")
-            }} sx={{ my: 2, color: "white", display: "block" }}>
+            <Button
+              onClick={() => {
+                navigate("/products");
+              }}
+              sx={{ my: 2, color: "white", display: "block" }}
+            >
               Products
             </Button>
-            <Button onClick={()=>{
-                navigate("/orders")
-            }} sx={{ my: 2, color: "white", display: "block" }}>
+            <Button
+              onClick={() => {
+                navigate("/orders");
+              }}
+              sx={{ my: 2, color: "white", display: "block" }}
+            >
               Order
             </Button>
           </Box>
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: "45px" }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography sx={{ textAlign: "center" }}>
-                    {setting}
-                  </Typography>
-                </MenuItem>
-              ))}
-            </Menu>
+          <Box sx={{ display: "flex", justifyContent: "flex-end", alignItems: "center", height: "60px"  }}>
+          <Badge badgeContent={cart.length} color="warning" sx={{mr:2}}>
+              <AddShoppingCartIcon  />
+            </Badge> 
+            {authUser ? (
+              <>
+                <Tooltip title="Open settings">
+                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                    <Avatar
+                      alt={authUser.name}
+                      src="/static/images/avatar/2.jpg"
+                    />
+                  </IconButton>
+                </Tooltip>
+                <Menu
+                  sx={{ mt: "45px" }}
+                  id="menu-appbar"
+                  anchorEl={anchorElUser}
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  open={Boolean(anchorElUser)}
+                  onClose={handleCloseUserMenu}
+                >
+                  {settings.map((setting) => {
+                    if (
+                      setting === "Dashboard" &&
+                      !authUser.roles.includes("admin")
+                    ) {
+                      return null;
+                    }
+                    return (
+                      <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                        <Typography sx={{ textAlign: "center" }}>
+                          {setting}
+                        </Typography>
+                      </MenuItem>
+                    );
+                  })}
+                  <MenuItem onClick={handleCloseUserMenu}>
+                    <Typography
+                      sx={{ textAlign: "center" }}
+                      onClick={() => {
+                        mutation.mutate();
+                      }}
+                    >
+                      Log Out
+                    </Typography>
+                  </MenuItem>
+                </Menu>{" "}
+              </>
+            ) : (
+              <Button
+                onClick={() => {
+                  navigate("/sign-in");
+                }}
+                sx={{ my: 2, color: "white", display: "block" }}
+              >
+                Sign IN
+              </Button>
+            )}
+             
           </Box>
         </Toolbar>
       </Container>

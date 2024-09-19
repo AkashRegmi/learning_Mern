@@ -11,7 +11,7 @@ function LatestProducts() {
     queryKey: ["latest-Product"],
     queryFn: async () => {
       try {
-        const res = await axios.get("http://localhost:3000/products/latest");
+        const res = await axios.get("/api/products/latest");
         console.log(res);
         return res.data.data;
       } catch (error) {

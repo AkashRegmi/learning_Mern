@@ -190,9 +190,10 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation } from "@tanstack/react-query";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { toast } from "react-toastify";
 import { Alert } from "@mui/material";
+import { AuthContext } from "../App";
 
 const schema = yup
   .object({
@@ -205,12 +206,14 @@ const schema = yup
   .required();
 
 export default function SignUp() {
+  const {setAuthUser}=useContext(AuthContext);
+
   const navigate = useNavigate();
   const [image, setImage] = useState(null);
   const mutation = useMutation({
     mutationFn: async (data) => {
       //here We Cal the API.
-      const res = await axios.post("http://localhost:3000/auth/sign-in", data);
+      const res = await axios.post("/api/auth/sign-in", data);
       return res.data;
     },
     onSuccess: (data) => {
@@ -218,6 +221,8 @@ export default function SignUp() {
 
       navigate("/");
       toast.success(data.message);
+      setAuthUser(data.user)
+      localStorage.setItem("authUser", JSON.stringify(data.user));
     },
     onError: (err) => {
       // console.log(err.response.data.message);
