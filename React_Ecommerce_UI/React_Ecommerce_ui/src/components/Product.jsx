@@ -45,11 +45,13 @@ export default function Product({ product }) {
                 _id: product._id,
                 name: product.name,
                 price: product.price,
+                image: product.image,
                 quantity: 1,
               });
             }
 
             setCart(newCartItem);
+            localStorage.setItem('cart', JSON.stringify(newCartItem));
           }}
         >
           <h4>Add to Cart</h4>

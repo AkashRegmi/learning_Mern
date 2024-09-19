@@ -157,7 +157,9 @@ function NavBar() {
             </Button>
           </Box>
           <Box sx={{ display: "flex", justifyContent: "flex-end", alignItems: "center", height: "60px"  }}>
-          <Badge badgeContent={cart.length} color="warning" sx={{mr:2}}>
+          <Badge badgeContent={cart.length} color="warning" sx={{mr:2}} onClick={()=>{
+            navigate("/cart");
+          }}>
               <AddShoppingCartIcon  />
             </Badge> 
             {authUser ? (

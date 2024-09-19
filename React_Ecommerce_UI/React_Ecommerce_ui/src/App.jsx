@@ -8,7 +8,8 @@ import HomeLayout from "./layout/HomeLayout";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
+import Cart from "./pages/Cart";
  export const AuthContext = createContext();
 const queryClient = new QueryClient();
 
@@ -17,7 +18,13 @@ function App() {
   return JSON.parse(localStorage.getItem('authUser'));
  });
 
- const [cart,setCart]=useState([])
+ const [cart,setCart]=useState(()=>{
+  return JSON.parse(localStorage.getItem('cart'))??[];
+ });
+
+ useEffect(()=>{
+  localStorage.setItem("cart", JSON.stringify(cart));
+ },[cart])
   return (
     <>
       <ToastContainer />
@@ -30,6 +37,7 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/products" element={<Products />} />
                 <Route path="/orders" element={<OrderTable />} />
+                <Route path="/cart" element={<Cart/>} />
               </Route>
 
               {/* Standalone routes */}
