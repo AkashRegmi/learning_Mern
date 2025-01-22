@@ -18,7 +18,7 @@ const STATUS_COLOR = {
 
 // pagination
 
-export default function OrdersTable() {
+export default function Orders() {
 
   const { data, isLoading } = useQuery({
     queryKey: ["orders"],

@@ -9,7 +9,9 @@ const{ getProductById,
     deleteProductById,
     updateProductById,
     getFeaturedProducts,
-    getLatestProducts} = require("../controller/products.controller");
+    getLatestProducts,
+    createOrder,
+    getOrders} = require("../controller/products.controller");
 const { JWT_SECRET_KEY } = require("../config/constants");
 const { checkAuth, checkAuthAdmin } = require("../middleware/check_auth.middleware");
 const validate = require("../middleware/validator.middleware");
@@ -55,6 +57,8 @@ router.post("/",checkAuthAdmin,upload.single("image"), addProduct)
 router.get("/", getProduct);
 router.get("/featured", getFeaturedProducts);
 router.get("/latest", getLatestProducts);
+router.post("/order",checkAuth, createOrder);
+router.get("/order",checkAuth, getOrders);
 router.get("/:productid", checkAuth,getProductById);
 router.delete("/:id", deleteProductById);  // checkAuthAdmin,
 router.patch("/:id", checkAuthAdmin,updateProductById);

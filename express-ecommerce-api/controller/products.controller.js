@@ -2,6 +2,7 @@ const { request } = require("express");
 const Product = require("../models/Product");
 const multer = require("multer");
 const upload = multer({ dest: "uploads/" });
+const Order= require("../models/Order");
 // Route to get all products or search for products by name
 // const getProduct = async (req, res) => {
 //   console.log(req.authUser);
@@ -147,6 +148,51 @@ const getLatestProducts = async (req, res) => {
     .status(200)
     .json({ message: "product Latest fetched Successfully", data: products, });
 };
+
+
+const createOrder = async (req, res) => {
+  await Order.create({
+    user: req.authUser._id,
+    ...req.body,
+    totalPrice: 0, // should be calculated in backend
+  });
+
+  res.json({
+    message: "Order created succesfully.",
+  });
+};
+
+
+
+
+const getOrders = async (req, res) => {
+  const { page = 1, limit = 10 } = req.query;
+
+  const filter = {
+    user: req.authUser._id,
+  };
+
+  if (req.query.status) {
+    filter.status = req.query.status;
+  }
+
+  const orders = await Order.find(filter)
+    .limit(limit)
+    .skip((page - 1) * limit ?? 10);
+
+  const total = await Order.countDocuments(filter);
+
+  res.status(200).json({
+    message: "Orders fetched successfully",
+    data: {
+      page,
+      total,
+      data: orders,
+    },
+  });
+};
+
+
 module.exports = {
   getProductById,
   getProduct,
@@ -155,4 +201,8 @@ module.exports = {
   updateProductById,
   getFeaturedProducts,
   getLatestProducts,
+  createOrder,
+  getOrders,
+  
+
 };

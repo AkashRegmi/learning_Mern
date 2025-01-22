@@ -11,10 +11,12 @@ const authRoutes = require("./routes/auth.routes");
 const productRoutes = require("./routes/product.routes");
 const Product = require("./models/Product");
 const User = require("./models/User");
+const cookieParser=require("cookie-parser");
 const { query, validationResult } = require("express-validator");
 const { signUp, signIn } = require("./controller/auth.controller");
 app.use(express.json());
 app.use(cors())
+app.use(cookieParser());
 app.use(express.static("uploads"))
 connectDb();
 
